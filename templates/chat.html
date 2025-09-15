@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-3">Community Chat</h2>
+<div id="messages" class="chat-box mb-3"></div>
+<form id="chatForm" class="d-flex">
+  <input id="msgInput" class="form-control me-2" autocomplete="off" placeholder="Type message...">
+  <button class="btn btn-primary">Send</button>
+</form>
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script src="{{ url_for('static', filename='chat.js') }}"></script>
+<script>
+  const USERNAME = "{{ username }}";
+</script>
+{% endblock %}
