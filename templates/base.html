@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Messenger</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body { background: #f8f9fa; }
@@ -27,6 +26,26 @@
     }
     .chat-message.other {
       background: #e2e3e5;
+    }
+
+    /* Added styles for the landing page */
+    .landing-page {
+      /* Option 1: Gradient Background */
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      
+      /* Option 2: Image Background (uncomment to use) */
+      /*
+      background: url('https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=2550&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center;
+      background-size: cover;
+      */
+      
+      color: white;
+      padding: 5rem 1rem;
+      border-radius: 15px;
+      text-align: center;
+    }
+    .landing-page .lead {
+        color: #e9ecef;
     }
   </style>
 </head>
@@ -60,7 +79,6 @@
     {% block content %}{% endblock %}
   </div>
   
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
