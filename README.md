@@ -13,32 +13,6 @@ This project is a simple, yet effective, real-time messaging application. It pro
   * Real-time messaging with Socket.IO
   * Simple and intuitive chat interface
 
-## Getting Started
-
-To get a local copy up and running follow these simple steps.
-
-### Prerequisites
-
-  * Python 3
-  * pip
-
-### Installation
-
-1.  Clone the repo
-    ```sh
-    git clone https://github.com/your_username/Community-Messenger-Flask.git
-    ```
-2.  Install Python packages
-    ```sh
-    pip install -r requirements.txt
-    ```
-3.  Run the application
-    ```sh
-    python app.py
-    ```
-
-The application will be running on `http://127.0.0.1:5000`.
-
 ## Usage
 
 1.  Register for a new account.
