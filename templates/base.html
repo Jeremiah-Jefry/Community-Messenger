@@ -2,75 +2,127 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Messenger</title>
+  <title>Community Messenger</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body { background: #f8f9fa; }
-    .chat-box {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      height: 400px;
-      overflow-y: auto;
-      padding: 10px;
-      background: #fff;
-    }
-    .chat-message {
-      padding: 5px 10px;
-      margin-bottom: 5px;
-      border-radius: 5px;
-    }
-    .chat-message.me {
-      background: #d1e7dd;
-      text-align: right;
-    }
-    .chat-message.other {
-      background: #e2e3e5;
+    /* Discord-inspired Dark Theme Variables */
+    :root {
+      --bg-primary: #36393f; /* Dark background */
+      --bg-secondary: #2f3136; /* Chat area background */
+      --bg-tertiary: #202225; /* Sidebar background */
+      --text-color: #dcddde; /* Light text */
+      --accent-color: #7289da; /* Discord Blue */
+      --success-color: #43b581; /* Green for Online/Success */
     }
 
+    body {
+      background: var(--bg-primary);
+      color: var(--text-color);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh; /* Full viewport height */
+      margin: 0;
+      padding-top: 56px; /* Space for fixed navbar */
+    }
+
+    /* Navbar - Sleek and Dark */
+    .navbar {
+      background-color: var(--bg-tertiary) !important;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    }
+    .navbar-brand, .navbar-text {
+      color: white !important;
+    }
+    .btn-accent {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        color: white;
+    }
+    .btn-accent:hover {
+        background-color: #677bc4;
+        border-color: #677bc4;
+        color: white;
+    }
+
+    /* Form Card Styling (Login/Register/Dashboard) */
+    .card {
+      background-color: var(--bg-secondary);
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+    .card-title {
+        color: white;
+    }
+    .form-control {
+        background-color: #40444b;
+        color: var(--text-color);
+        border: 1px solid #2f3136;
+    }
+    .form-control:focus {
+        background-color: #40444b;
+        color: var(--text-color);
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 0.25rem rgba(114, 137, 218, 0.25); /* Accent blue focus */
+    }
+    .alert-info {
+        background-color: #3e4780;
+        border-color: #3e4780;
+        color: white;
+    }
     
+    /* Landing Page - Clean Centerpiece */
     .landing-page {
-      
-      background: linear-gradient(to right, #6a11cb, #2575fc); 
-      
-      
-      
-      color: white;
-      padding: 5rem 1rem;
-      border-radius: 15px;
-      text-align: center;
+        background: var(--bg-secondary); 
+        color: var(--text-color);
+        padding: 5rem 1rem;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        margin-top: 3rem;
+    }
+    .landing-page h1 {
+        font-weight: 700;
+        color: var(--accent-color);
     }
     .landing-page .lead {
-        color: #e9ecef;
+        color: var(--text-color);
+        font-size: 1.25rem;
     }
+
+    /* Chat-specific styles will go in chat.html or be globally managed here */
+    
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{{ url_for('home') }}">Messenger</a>
-      <div class="d-flex">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">Community Messenger</a>
+      <div class="d-flex align-items-center">
         {% if current_user.is_authenticated %}
-          <span class="navbar-text me-3">Hi, {{ current_user.username }}</span>
-          <a class="btn btn-outline-light btn-sm" href="{{ url_for('logout') }}">Logout</a>
+          <a class="btn btn-outline-light btn-sm me-2" href="{{ url_for('dashboard') }}">Dashboard</a>
+          <a class="btn btn-outline-light btn-sm me-2" href="{{ url_for('chat') }}">Chatroom</a>
+          <span class="navbar-text me-3 text-white-50">Logged in as, <b>{{ current_user.username }}</b></span>
+          <a class="btn btn-warning btn-sm" href="{{ url_for('logout') }}">Logout</a>
         {% else %}
           <a class="btn btn-outline-light btn-sm me-2" href="{{ url_for('login') }}">Login</a>
-          <a class="btn btn-light btn-sm" href="{{ url_for('register') }}">Register</a>
+          <a class="btn btn-accent btn-sm" href="{{ url_for('register') }}">Register</a>
         {% endif %}
       </div>
     </div>
   </nav>
   
-  <div class="container mt-4">
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="alert alert-info">
-          {% for msg in messages %}
-            <div>{{ msg }}</div>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
+  <div class="content-wrapper">
+    <div class="container mt-2">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-info">
+            {% for msg in messages %}
+                <div>{{ msg }}</div>
+            {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+    </div>
 
     {% block content %}{% endblock %}
   </div>

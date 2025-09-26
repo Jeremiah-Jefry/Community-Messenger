@@ -1,17 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="card mx-auto" style="max-width: 400px;">
-  <div class="card-body">
-    <h2 class="card-title text-center mb-4">Register</h2>
-    <form method="post">
-      <div class="mb-3">
-        <input class="form-control" name="username" placeholder="Username" required>
+<div class="container mt-5">
+    <div class="card mx-auto" style="max-width: 400px;">
+      <div class="card-body">
+        <h2 class="card-title text-center mb-4">Register</h2>
+        <form method="post">
+          <div class="mb-3">
+            <input class="form-control" name="username" placeholder="Username" required>
+          </div>
+          <div class="mb-3">
+            <input class="form-control" name="password" type="password" placeholder="Password" required>
+          </div>
+          <button class="btn btn-accent w-100">Register</button>
+        </form>
       </div>
-      <div class="mb-3">
-        <input class="form-control" name="password" type="password" placeholder="Password" required>
-      </div>
-      <button class="btn btn-primary w-100">Register</button>
-    </form>
-  </div>
+    </div>
 </div>
 {% endblock %}

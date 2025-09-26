@@ -1,14 +1,129 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 class="mb-3">Community Chat</h2>
-<div id="messages" class="chat-box mb-3"></div>
-<form id="chatForm" class="d-flex">
-  <input id="msgInput" class="form-control me-2" autocomplete="off" placeholder="Type message...">
-  <button class="btn btn-primary">Send</button>
-</form>
+<style>
+    /* Full-height chat area, accounting for fixed navbar (56px) */
+    .chat-container {
+        display: flex;
+        height: calc(100vh - 56px); 
+        margin: 0;
+        padding: 0;
+    }
+    /* Left Sidebar: Channels/Users */
+    .sidebar-pane {
+        width: 250px; /* Fixed width like Discord */
+        background-color: var(--bg-tertiary);
+        padding: 1rem 0;
+        border-right: 1px solid rgba(0, 0, 0, 0.2);
+        overflow-y: auto;
+    }
+    .sidebar-header {
+        color: white;
+        padding: 0 1rem 0.5rem 1rem;
+        border-bottom: 1px solid #40444b;
+        margin-bottom: 1rem;
+    }
+    .user-list {
+        list-style: none;
+        padding: 0 1rem;
+        margin: 0;
+    }
+    .user-item {
+        padding: 5px 0;
+        color: var(--text-color);
+        display: flex;
+        align-items: center;
+    }
+    .user-item .status-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: var(--success-color); /* Always online for now */
+        margin-right: 8px;
+    }
+
+    /* Main Chat Area */
+    .chat-pane {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--bg-secondary);
+    }
+    .chat-box {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 1rem;
+        border: none; /* Removed default border */
+        height: auto;
+    }
+    .chat-message {
+        padding: 0.5rem 0;
+        border-radius: 0;
+        background: transparent;
+        line-height: 1.5;
+        margin-bottom: 0;
+        word-wrap: break-word;
+    }
+    .chat-message b {
+        color: white; /* Username stands out */
+        font-weight: 600;
+        margin-right: 5px;
+    }
+    /* Simple, professional message look - no bubbles */
+    .chat-message.me, .chat-message.other {
+        text-align: left;
+        background: none;
+    }
+    
+    /* Input Form */
+    .chat-input-form {
+        padding: 1rem;
+        border-top: 1px solid #40444b;
+        background-color: #36393f;
+    }
+    .chat-input-form .form-control {
+        background-color: #40444b;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+    }
+    .chat-input-form .btn {
+        background-color: var(--accent-color);
+        border: none;
+    }
+</style>
+
+<div class="chat-container">
+    <div class="sidebar-pane">
+        <h5 class="sidebar-header">Community Users (Online)</h5>
+        <ul class="user-list">
+            <li class="user-item">
+                <span class="status-dot"></span>
+                <b>{{ username }} (You)</b>
+            </li>
+            <li class="user-item text-white-50">
+                <span class="status-dot" style="background-color: #4f545c;"></span>
+                Other Users (Offline/Placeholder)
+            </li>
+        </ul>
+    </div>
+
+    <div class="chat-pane">
+        <div id="messages" class="chat-box">
+            <div class="text-center text-muted p-2 pt-5">
+                <p class="mb-0">Welcome to the chatroom!</p>
+            </div>
+        </div>
+
+        <form id="chatForm" class="d-flex chat-input-form">
+            <input id="msgInput" class="form-control me-2" autocomplete="off" placeholder="Message #general..." required>
+            <button class="btn btn-accent">Send</button>
+        </form>
+    </div>
+</div>
+
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-<script src="{{ url_for('static', filename='chat.js') }}"></script>
 <script>
   const USERNAME = "{{ username }}";
 </script>
+<script src="{{ url_for('static', filename='chat.js') }}"></script>
 {% endblock %}

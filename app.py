@@ -1,3 +1,4 @@
+import html # Added for server-side HTML escaping
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
@@ -68,10 +69,20 @@ def logout():
 def chat():
     return render_template("chat.html", username=current_user.username)
 
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    # Query the total number of users
+    total_users = db.session.query(User).count()
+    return render_template("dashboard.html", total_users=total_users)
+
 # Socket events
 @socketio.on("send_message")
 def handle_message(data):
-    msg = {"username": current_user.username, "text": data["text"]}
+    # Sanitize the message text before broadcasting it to all clients
+    # This prevents Cross-Site Scripting (XSS) by turning HTML tags into literal text
+    safe_text = html.escape(data["text"])
+    msg = {"username": current_user.username, "text": safe_text}
     emit("receive_message", msg, broadcast=True)
 
 # Run
