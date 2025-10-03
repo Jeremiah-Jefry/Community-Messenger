@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card mx-auto" style="max-width: 600px;">
+      <div class="card-body">
+        <h2 class="card-title text-center mb-4">Your Groups</h2>
+        <form method="post" class="mb-4">
+          <div class="input-group">
+            <input type="text" class="form-control" name="group_name" placeholder="Create a new group..." required>
+            <button class="btn btn-accent" type="submit">Create</button>
+          </div>
+        </form>
+
+        {% if user_groups %}
+          <ul class="list-group">
+            {% for group in user_groups %}
+              <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #40444b; border-color: #2f3136;">
+                {{ group.name }}
+                <a href="{{ url_for('chat', group_id=group.id) }}" class="btn btn-success btn-sm">Enter Chat</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-center text-muted">You are not in any groups. Create one or join one below!</p>
+        {% endif %}
+
+        <hr class="my-4" style="border-color: #40444b;">
+        <h4 class="text-center mb-3">Join Other Groups</h4>
+        {% set other_groups = all_groups|rejectattr('id', 'in', user_groups|map(attribute='id')|list) |list %}
+        {% if other_groups %}
+        <ul class="list-group">
+            {% for group in other_groups %}
+              <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #40444b; border-color: #2f3136;">
+                {{ group.name }}
+                <a href="{{ url_for('join_group', group_id=group.id) }}" class="btn btn-outline-light btn-sm">Join</a>
+              </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-center text-muted">No other groups are available to join.</p>
+        {% endif %}
+      </div>
+    </div>
+</div>
+{% endblock %}

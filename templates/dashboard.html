@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mt-5">
-    <div class="card mx-auto" style="max-width: 600px;">
+    <div class="card mx-auto" style="max-width: 800px;">
       <div class="card-body">
-        <h2 class="card-title text-center mb-4">User Dashboard</h2>
+        <h2 class="card-title text-center mb-4">Admin Dashboard</h2>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <div class="card text-white mb-3" style="background-color: var(--accent-color);">
               <div class="card-header">Community Stats</div>
               <div class="card-body">
@@ -14,10 +14,21 @@
               </div>
             </div>
           </div>
+          <div class="col-md-6">
+            <div class="card text-white" style="background-color: var(--bg-primary);">
+              <div class="card-header">Registered Usernames</div>
+              <div class="card-body" style="max-height: 200px; overflow-y: auto;">
+                <ul class="list-group list-group-flush">
+                  {% for user in all_users %}
+                    <li class="list-group-item" style="background-color: transparent; color: var(--text-color);">{{ user.username }}</li>
+                  {% else %}
+                    <li class="list-group-item" style="background-color: transparent; color: var(--text-color);">No users found.</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <p class="mt-4 text-center text-muted">More dashboard features can be added here!</p>
-
       </div>
     </div>
 </div>

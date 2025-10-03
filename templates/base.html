@@ -6,91 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    /* Discord-inspired Dark Theme Variables */
     :root {
-      --bg-primary: #36393f; /* Dark background */
-      --bg-secondary: #2f3136; /* Chat area background */
-      --bg-tertiary: #202225; /* Sidebar background */
-      --text-color: #dcddde; /* Light text */
-      --accent-color: #7289da; /* Discord Blue */
-      --success-color: #43b581; /* Green for Online/Success */
+      --bg-primary: #36393f; --bg-secondary: #2f3136; --bg-tertiary: #202225;
+      --text-color: #dcddde; --accent-color: #7289da;
     }
-
-    body {
-      background: var(--bg-primary);
-      color: var(--text-color);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      min-height: 100vh; /* Full viewport height */
-      margin: 0;
-      padding-top: 56px; /* Space for fixed navbar */
-    }
-
-    /* Navbar - Sleek and Dark */
-    .navbar {
-      background-color: var(--bg-tertiary) !important;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    }
-    .navbar-brand, .navbar-text {
-      color: white !important;
-    }
-    .btn-accent {
-        background-color: var(--accent-color);
-        border-color: var(--accent-color);
-        color: white;
-    }
-    .btn-accent:hover {
-        background-color: #677bc4;
-        border-color: #677bc4;
-        color: white;
-    }
-
-    /* Form Card Styling (Login/Register/Dashboard) */
-    .card {
-      background-color: var(--bg-secondary);
-      border: 1px solid rgba(0, 0, 0, 0.3);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    }
-    .card-title {
-        color: white;
-    }
-    .form-control {
-        background-color: #40444b;
-        color: var(--text-color);
-        border: 1px solid #2f3136;
-    }
-    .form-control:focus {
-        background-color: #40444b;
-        color: var(--text-color);
-        border-color: var(--accent-color);
-        box-shadow: 0 0 0 0.25rem rgba(114, 137, 218, 0.25); /* Accent blue focus */
-    }
-    .alert-info {
-        background-color: #3e4780;
-        border-color: #3e4780;
-        color: white;
-    }
-    
-    /* Landing Page - Clean Centerpiece */
-    .landing-page {
-        background: var(--bg-secondary); 
-        color: var(--text-color);
-        padding: 5rem 1rem;
-        border-radius: 15px;
-        text-align: center;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        margin-top: 3rem;
-    }
-    .landing-page h1 {
-        font-weight: 700;
-        color: var(--accent-color);
-    }
-    .landing-page .lead {
-        color: var(--text-color);
-        font-size: 1.25rem;
-    }
-
-    /* Chat-specific styles will go in chat.html or be globally managed here */
-    
+    body { background: var(--bg-primary); color: var(--text-color); font-family: 'Segoe UI', sans-serif; min-height: 100vh; margin: 0; padding-top: 56px; }
+    .navbar { background-color: var(--bg-tertiary) !important; border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+    .navbar-brand, .navbar-text { color: white !important; }
+    .btn-accent { background-color: var(--accent-color); border-color: var(--accent-color); color: white; }
+    .btn-accent:hover { background-color: #677bc4; border-color: #677bc4; }
+    .card { background-color: var(--bg-secondary); border: 1px solid rgba(0, 0, 0, 0.3); }
+    .form-control { background-color: #40444b; color: var(--text-color); border: 1px solid #2f3136; }
+    .form-control:focus { background-color: #40444b; color: var(--text-color); border-color: var(--accent-color); box-shadow: 0 0 0 0.25rem rgba(114, 137, 218, 0.25); }
+    .alert-info { background-color: #3e4780; border-color: #3e4780; color: white; }
+    .landing-page { background: var(--bg-secondary); padding: 5rem 1rem; border-radius: 15px; text-align: center; margin-top: 3rem; }
   </style>
 </head>
 <body>
@@ -100,7 +29,7 @@
       <div class="d-flex align-items-center">
         {% if current_user.is_authenticated %}
           <a class="btn btn-outline-light btn-sm me-2" href="{{ url_for('dashboard') }}">Dashboard</a>
-          <a class="btn btn-outline-light btn-sm me-2" href="{{ url_for('chat') }}">Chatroom</a>
+          <a class="btn btn-outline-light btn-sm me-2" href="{{ url_for('groups') }}">Groups</a>
           <span class="navbar-text me-3 text-white-50">Logged in as, <b>{{ current_user.username }}</b></span>
           <a class="btn btn-warning btn-sm" href="{{ url_for('logout') }}">Logout</a>
         {% else %}
@@ -123,7 +52,6 @@
         {% endif %}
         {% endwith %}
     </div>
-
     {% block content %}{% endblock %}
   </div>
   
