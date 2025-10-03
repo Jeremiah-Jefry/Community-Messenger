@@ -38,10 +38,10 @@ To get a local copy up and running, follow these simple steps.
 2.  **Create and activate a virtual environment** (recommended)
 
      
-        ```sh
-        python -m venv venv
-        .\venv\Scripts\activate
-        ```
+   ```sh
+   python -m venv venv
+   .\venv\Scripts\activate
+   ```
 
 3.  **Install the required packages** using the `requirements.txt` file:
 
