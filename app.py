@@ -5,6 +5,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, U
 from flask_socketio import SocketIO, emit, join_room
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
+import pytz
 
 # Setup
 app = Flask(__name__)
@@ -14,6 +15,16 @@ db = SQLAlchemy(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 login = LoginManager(app)
 login.login_view = "login"
+
+# --- Timezone Conversion Filter ---
+def to_ist(utc_dt):
+    if utc_dt is None:
+        return ""
+    ist_timezone = pytz.timezone('Asia/Kolkata')
+    return pytz.utc.localize(utc_dt).astimezone(ist_timezone).strftime('%I:%M %p')
+
+app.jinja_env.filters['to_ist'] = to_ist
+
 
 # --- Database Models ---
 group_members = db.Table('group_members',
@@ -139,14 +150,14 @@ online_users = {}
 def on_join(data):
     room = data['room']
     join_room(room)
-    
+
     if room not in online_users:
         online_users[room] = set()
     online_users[room].add(current_user.id)
-    
+
     users_in_room = User.query.filter(User.id.in_(online_users[room])).all()
     usernames = [user.username for user in users_in_room]
-    
+
     emit('update_online_users', {'users': usernames}, to=room)
 
 @socketio.on('disconnect')
@@ -166,16 +177,20 @@ def handle_message(data):
 
     room = data['room']
     safe_text = html.escape(data["text"])
-    timestamp = datetime.datetime.utcnow()
+    timestamp_utc = datetime.datetime.utcnow()
 
-    message = Message(text=safe_text, user_id=current_user.id, group_id=int(room), timestamp=timestamp)
+    message = Message(text=safe_text, user_id=current_user.id, group_id=int(room), timestamp=timestamp_utc)
     db.session.add(message)
     db.session.commit()
+
+    # Convert UTC timestamp to IST for real-time display
+    ist_timezone = pytz.timezone('Asia/Kolkata')
+    timestamp_ist = pytz.utc.localize(timestamp_utc).astimezone(ist_timezone)
 
     msg = {
         "username": current_user.username,
         "text": safe_text,
-        "timestamp": timestamp.strftime('%I:%M %p')
+        "timestamp": timestamp_ist.strftime('%I:%M %p')
     }
     emit("receive_message", msg, broadcast=True, to=room)
 

@@ -5,10 +5,29 @@
     .chat-pane { flex-grow: 1; display: flex; flex-direction: column; background-color: var(--bg-secondary); }
     .chat-header { background-color: var(--bg-tertiary); padding: 0.75rem 1.5rem; border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
     .chat-box { flex-grow: 1; overflow-y: auto; padding: 1rem; }
-    .chat-message { display: flex; align-items: baseline; padding: 0.25rem 0; line-height: 1.5; word-wrap: break-word; }
-    .chat-message .timestamp { font-size: 0.75rem; color: #72767d; margin-right: 10px; flex-shrink: 0; }
-    .chat-message .content { display: inline; }
-    .chat-message .content b { color: white; font-weight: 600; margin-right: 8px; }
+    .chat-message { display: flex; margin-bottom: 1rem; }
+    /* Adjust flex direction for current user's messages if you still want right alignment */
+    .chat-message.current-user { justify-content: flex-end; } /* Pushes message to the right */
+
+    .chat-message .message-content {
+        padding: 0.75rem;
+        border-radius: 10px;
+        background-color: var(--bg-tertiary);
+        max-width: 70%; /* Limit message bubble width */
+    }
+    .chat-message.current-user .message-content { background-color: var(--accent-color); }
+    .chat-message .username { font-weight: bold; margin-bottom: 2px; font-size: 0.9em;} /* Slightly smaller username */
+    .chat-message .timestamp { font-size: 0.75rem; color: #72767d; margin-top: 5px;}
+
+    /* Styling for messages from others */
+    .chat-message:not(.current-user) .message-content {
+        margin-left: 0; /* Remove avatar space */
+    }
+    /* Styling for messages from current user */
+    .chat-message.current-user .message-content {
+        margin-right: 0; /* Remove avatar space */
+    }
+
     .users-sidebar { width: 240px; background-color: var(--bg-tertiary); border-left: 1px solid rgba(0, 0, 0, 0.2); padding: 1rem; overflow-y: auto; }
     .users-sidebar h5 { color: #96989d; text-transform: uppercase; font-size: 0.8rem; font-weight: bold; }
     .user-list-item { list-style: none; color: var(--text-color); padding: 5px 0; }
@@ -19,9 +38,12 @@
         <div class="chat-header"><h4 class="mb-0 text-white"># {{ group.name }}</h4></div>
         <div id="messages" class="chat-box">
             {% for message in messages %}
-            <div class="chat-message">
-                <span class="timestamp">{{ message.timestamp.strftime('%I:%M %p') }}</span>
-                <div class="content"><b>{{ message.user.username }}</b><span>{{ message.text }}</span></div>
+            <div class="chat-message {% if message.user.username == user.username %}current-user{% endif %}">
+                <div class="message-content">
+                    <div class="username">{{ message.user.username }}</div>
+                    <div>{{ message.text }}</div>
+                    <div class="timestamp text-end">{{ message.timestamp|to_ist }}</div>
+                </div>
             </div>
             {% endfor %}
         </div>

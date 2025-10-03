@@ -16,7 +16,7 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
   const text = input.value.trim();
   if (text) {
-    const escapedText = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const escapedText = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, ">");
     socket.emit("send_message", { text: escapedText, room: GROUP_ID });
     input.value = "";
     input.focus();
@@ -24,33 +24,40 @@ form.addEventListener("submit", (e) => {
 });
 
 socket.on("receive_message", (data) => {
-  const messageWrapper = document.createElement("div");
-  messageWrapper.classList.add("chat-message");
-  
-  const timestampSpan = document.createElement("span");
-  timestampSpan.classList.add("timestamp");
-  timestampSpan.textContent = data.timestamp;
+    const messageWrapper = document.createElement("div");
+    messageWrapper.classList.add("chat-message");
+    if (data.username === USERNAME) {
+        messageWrapper.classList.add("current-user");
+    }
 
-  const contentDiv = document.createElement("div");
-  contentDiv.classList.add("content");
-  
-  const usernameSpan = document.createElement("b");
-  usernameSpan.textContent = data.username;
+    const messageContent = document.createElement("div");
+    messageContent.classList.add("message-content");
 
-  contentDiv.appendChild(usernameSpan);
-  contentDiv.append(data.text);
-  
-  messageWrapper.appendChild(timestampSpan);
-  messageWrapper.appendChild(contentDiv);
-  
-  messages.appendChild(messageWrapper);
-  messages.scrollTop = messages.scrollHeight;
+    const usernameDiv = document.createElement("div");
+    usernameDiv.classList.add("username");
+    usernameDiv.textContent = data.username;
+
+    const textDiv = document.createElement("div");
+    textDiv.textContent = data.text;
+
+    const timestampDiv = document.createElement("div");
+    timestampDiv.classList.add("timestamp", "text-end"); // Ensure text-end is applied
+    timestampDiv.textContent = data.timestamp;
+
+    messageContent.appendChild(usernameDiv);
+    messageContent.appendChild(textDiv);
+    messageContent.appendChild(timestampDiv);
+
+    messageWrapper.appendChild(messageContent); // Only append messageContent
+
+    messages.appendChild(messageWrapper);
+    messages.scrollTop = messages.scrollHeight;
 });
 
 socket.on("update_online_users", (data) => {
     onlineUserList.innerHTML = "";
     onlineUserCount.textContent = data.users.length;
-    
+
     data.users.forEach(user => {
         const li = document.createElement("li");
         li.classList.add("user-list-item");
