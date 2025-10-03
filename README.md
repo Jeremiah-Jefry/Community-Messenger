@@ -1,7 +1,7 @@
 
 # Community Messenger
 
-Community Messenger is a real-time, group-based chat application built with Flask and Socket.IO. It provides a dynamic platform for users to register, create and join different chat groups, and engage in real-time conversations. Inspired by platforms like Discord and WhatsApp, it's designed to be feature-rich yet easy to set up and use.
+Community Messenger is a real-time, group-based chat application built with Flask and Socket.IO. It provides a dynamic platform for users to register, create and join different chat groups, and engage in real-time conversations. 
 
 ## About The Project
 
@@ -37,11 +37,10 @@ To get a local copy up and running, follow these simple steps.
 
 2.  **Create and activate a virtual environment** (recommended)
 
-     
-   ```sh
+    ```sh
     python -m venv venv
     .\venv\Scripts\activate
-   ```
+   ``
 
 3.  **Install the required packages** using the `requirements.txt` file:
 
