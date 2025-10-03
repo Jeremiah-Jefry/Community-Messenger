@@ -39,8 +39,8 @@ To get a local copy up and running, follow these simple steps.
 
      
    ```sh
-   python -m venv venv
-   .\venv\Scripts\activate
+    python -m venv venv
+    .\venv\Scripts\activate
    ```
 
 3.  **Install the required packages** using the `requirements.txt` file:
