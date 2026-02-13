@@ -2,29 +2,33 @@
 {% block content %}
 <div class="container mt-5">
     <div class="card mx-auto" style="max-width: 800px;">
-      <div class="card-body">
-        <h2 class="card-title text-center mb-4">Admin Dashboard</h2>
+      <div class="card-body p-4">
+        <h2 class="card-title text-center mb-4" style="font-weight: 700;">Dashboard</h2>
         <div class="row">
-          <div class="col-md-6">
-            <div class="card text-white mb-3" style="background-color: var(--accent-color);">
-              <div class="card-header">Community Stats</div>
-              <div class="card-body">
-                <h5 class="card-title">Total Registered Users:</h5>
-                <p class="card-text fs-1">{{ total_users }}</p>
+          <div class="col-md-6 mb-3">
+            <div class="card h-100" style="background: var(--accent-color); border: none;">
+              <div class="card-body text-white">
+                <p class="mb-1" style="font-size: 0.85rem; opacity: 0.85; font-weight: 500;">Total Registered Users</p>
+                <p class="mb-0" style="font-size: 2.5rem; font-weight: 700; line-height: 1.2;">{{ total_users }}</p>
               </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="card text-white" style="background-color: var(--bg-primary);">
-              <div class="card-header">Registered Usernames</div>
-              <div class="card-body" style="max-height: 200px; overflow-y: auto;">
-                <ul class="list-group list-group-flush">
-                  {% for user in all_users %}
-                    <li class="list-group-item" style="background-color: transparent; color: var(--text-color);">{{ user.username }}</li>
-                  {% else %}
-                    <li class="list-group-item" style="background-color: transparent; color: var(--text-color);">No users found.</li>
-                  {% endfor %}
-                </ul>
+          <div class="col-md-6 mb-3">
+            <div class="card h-100">
+              <div class="card-body">
+                <p class="mb-2" style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Registered Users</p>
+                <div style="max-height: 200px; overflow-y: auto;">
+                  <ul class="list-unstyled mb-0">
+                    {% for user in all_users %}
+                      <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--border-color); color: var(--text-primary); font-size: 0.9rem;">
+                        <span class="user-avatar" style="width: 24px; height: 24px; font-size: 0.65rem; margin-right: 0.4rem;">{{ user.username[0]|upper }}</span>
+                        {{ user.username }}
+                      </li>
+                    {% else %}
+                      <li style="color: var(--text-secondary);">No users found.</li>
+                    {% endfor %}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

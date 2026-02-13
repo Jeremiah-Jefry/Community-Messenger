@@ -62,7 +62,14 @@ socket.on("update_online_users", (data) => {
         const li = document.createElement("li");
         li.classList.add("user-list-item");
         if (user === USERNAME) {
-            li.innerHTML = `<b>${user} (You)</b>`;
+            const nameSpan = document.createElement("span");
+            nameSpan.style.fontWeight = "600";
+            nameSpan.textContent = user;
+            const youTag = document.createElement("span");
+            youTag.textContent = " (You)";
+            youTag.style.cssText = "font-size:0.75rem;color:#4f46e5;font-weight:500;";
+            li.appendChild(nameSpan);
+            li.appendChild(youTag);
         } else {
             li.textContent = user;
         }

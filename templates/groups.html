@@ -4,8 +4,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title text-center mb-4">Your Groups</h2>
+                <div class="card-body p-4">
+                    <h2 class="card-title text-center mb-4" style="font-weight: 700;">Your Groups</h2>
                     <form method="post" class="mb-4">
                         <div class="input-group">
                             <input type="text" class="form-control" name="group_name" placeholder="Create a new group..." required>
@@ -20,21 +20,21 @@
                                 <div class="card h-100">
                                     <div class="card-body d-flex justify-content-between align-items-center">
                                         <div>
-                                            <h5 class="card-title">{{ group.name }}</h5>
-                                            <p class="card-text text-muted">You are a member</p>
+                                            <h5 class="card-title mb-1" style="font-weight: 600;">{{ group.name }}</h5>
+                                            <p class="card-text mb-0" style="color: var(--text-secondary); font-size: 0.85rem;">You are a member</p>
                                         </div>
-                                        <a href="{{ url_for('chat', group_id=group.id) }}" class="btn btn-success">Enter Chat</a>
+                                        <a href="{{ url_for('chat', group_id=group.id) }}" class="btn btn-accent btn-sm">Enter Chat</a>
                                     </div>
                                 </div>
                             </div>
                             {% endfor %}
                         </div>
                     {% else %}
-                        <p class="text-center text-muted">You are not in any groups. Create one or join one below!</p>
+                        <p class="text-center" style="color: var(--text-secondary);">You are not in any groups. Create one or join one below!</p>
                     {% endif %}
 
-                    <hr class="my-4" style="border-color: #40444b;">
-                    <h4 class="text-center mb-3">Join Other Groups</h4>
+                    <hr class="my-4" style="border-color: var(--border-color);">
+                    <h4 class="text-center mb-3" style="font-weight: 600;">Join Other Groups</h4>
                     {% set other_groups = all_groups|rejectattr('id', 'in', user_groups|map(attribute='id')|list) |list %}
                     {% if other_groups %}
                     <div class="row">
@@ -42,15 +42,15 @@
                         <div class="col-md-6 mb-3">
                             <div class="card h-100">
                                 <div class="card-body d-flex justify-content-between align-items-center">
-                                    <h5 class="card-title">{{ group.name }}</h5>
-                                    <a href="{{ url_for('join_group', group_id=group.id) }}" class="btn btn-outline-light btn-sm">Join</a>
+                                    <h5 class="card-title mb-0" style="font-weight: 600;">{{ group.name }}</h5>
+                                    <a href="{{ url_for('join_group', group_id=group.id) }}" class="btn nav-btn btn-sm">Join</a>
                                 </div>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
                     {% else %}
-                    <p class="text-center text-muted">No other groups are available to join.</p>
+                    <p class="text-center" style="color: var(--text-secondary);">No other groups are available to join.</p>
                     {% endif %}
                 </div>
             </div>
