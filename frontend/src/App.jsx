@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function App() {
   const [message, setMessage] = useState("Loading....");
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/')
+    fetch(`${API_URL}/`)
       .then((res) => res.json())
       .then((data) => setMessage(data.message))
-      .catch((err) => setMessage("Failed to reach the API"))
+      .catch(() => setMessage("Failed to reach the API"))
   }, []);
 
   return (
